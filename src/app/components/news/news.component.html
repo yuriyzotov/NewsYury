@@ -1,0 +1,66 @@
+<div class="news-container">
+  <div class="page-title">YURY NEWS</div>
+  <div class="page-desc">
+    ETFs and Commodity Futures – US Stocks, Crypto Market Trends and High Impact Forex USD News Today | That's YuryNews
+  </div>
+
+  <app-ticker-selector
+    [selectedTicker]="selectedTicker" 
+    (tickerChange)="onTickerChange($event)">
+  </app-ticker-selector>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading news...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="loadNews()">Try Again</button>
+  </div>
+
+  <div *ngIf="!loading && !error && news.length === 0" class="no-news-container">
+    <p>No news found for {{ selectedTicker }}. Try another ticker.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && news.length > 0" class="card-grid">
+    <div class="news-card" *ngFor="let item of news">
+      <div class="image-gallery">
+        <!-- Main image -->
+        <div class="main-image">
+          <img *ngIf="item.imageUrl" [src]="item.imageUrl" alt="News image" (click)="openNewsLink(item.url)">
+          <img *ngIf="!item.imageUrl" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="News image" (click)="openNewsLink(item.url)">
+        </div>
+
+        <!-- Additional images (thumbnails) -->
+        <div class="image-thumbnails" *ngIf="item.additionalImages && item.additionalImages.length > 0">
+          <img 
+            *ngFor="let imgUrl of item.additionalImages" 
+            [src]="imgUrl" 
+            alt="Additional news image" 
+            (click)="swapMainImage(item, imgUrl)"
+            class="thumbnail"
+          >
+        </div>
+      </div>
+
+      <div class="card-content" 
+           [ngClass]="{
+             'card-content-bullish': item.categories?.includes('bullish'),
+             'card-content-bearish': item.categories?.includes('bearish')
+           }"
+           (click)="openNewsLink(item.url)">
+        <div class="card-title" [innerHTML]="sanitizeHtml(item.title)"></div>
+        <div class="card-meta">
+          <span>{{ item.source }}</span>
+          <span>{{ item.publishedAt | date:'MM.dd.yy' }}</span>
+        </div>
+        <div class="card-tags">
+          <span class="tag">{{ selectedTicker }}</span>
+          <span class="tag" *ngFor="let category of item.categories" [ngClass]="{'tag-bullish': category === 'bullish', 'tag-bearish': category === 'bearish'}">{{ category | titlecase }}</span>
+          <span class="tag">News</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

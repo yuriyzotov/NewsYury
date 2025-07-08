@@ -1,0 +1,10 @@
+<div class="ticker-selector">
+  <mat-form-field appearance="fill">
+    <mat-label>Select Ticker</mat-label>
+    <mat-select [value]="selectedTicker" (selectionChange)="onSelectionChange($event.value)">
+      <mat-option *ngFor="let ticker of tickers" [value]="ticker.value">
+        {{ ticker.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
