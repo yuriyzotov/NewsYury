@@ -8,6 +8,27 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700,800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script>
+    // Redirect script for GitHub Pages
+    (function() {
+      // Parse query parameters
+      var loc = window.location;
+      var query = {};
+      if (loc.search) {
+        loc.search.slice(1).split('&').forEach(function(v) {
+          var a = v.split('=');
+          query[a[0]] = a.length > 1 ? a[1] : true;
+        });
+      }
+
+      // If we have a redirect from 404.html
+      if (loc.search && query['?/']) {
+        var path = query['?/'];
+        var newUrl = loc.origin + loc.pathname + '#/' + path;
+        history.replaceState(null, null, newUrl);
+      }
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

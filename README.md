@@ -93,6 +93,15 @@ A prebuilt version of the application is available in the `docs/` folder. This v
 
 The application will be available at `https://yuriyzotov.github.io/NewsYury/`.
 
+### Routing on GitHub Pages
+
+The application uses hash-based routing (`/#/news` instead of `/news`) to ensure proper navigation on GitHub Pages. This approach allows the application to handle all routing client-side without requiring server-side support. Additionally, a custom 404.html page is included to handle direct access to routes, redirecting users to the correct hash-based URL.
+
+This setup ensures that:
+- Direct access to `https://yuriyzotov.github.io/NewsYury/news` will be redirected to `https://yuriyzotov.github.io/NewsYury/#/news`
+- All navigation within the application will use hash-based URLs
+- Refreshing the page at any route will work correctly
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
